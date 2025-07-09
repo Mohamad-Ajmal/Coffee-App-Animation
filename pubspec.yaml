@@ -38,6 +38,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+ 
   wave: ^0.2.2
   add_to_cart_animation: ^2.0.4
   # The "flutter_lints" package below contains a set of recommended lints to
