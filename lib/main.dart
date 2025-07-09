@@ -33,18 +33,18 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: const CoffeeOrderScreen(),
+      home: const CoffeeOrderPage(),
     );
   }
 }
 
-class CoffeeOrderScreen extends StatefulWidget {
-  const CoffeeOrderScreen({Key? key}) : super(key: key);
+class CoffeeOrderPage extends StatefulWidget {
+  const CoffeeOrderPage({Key? key}) : super(key: key);
   @override
-  State<CoffeeOrderScreen> createState() => _CoffeeOrderScreeState();
+  State<CoffeeOrderPage> createState() => _CoffeeOrderScreeState();
 }
 
-class _CoffeeOrderScreeState extends State<CoffeeOrderScreen>
+class _CoffeeOrderScreeState extends State<CoffeeOrderPage>
     with TickerProviderStateMixin {
   GlobalKey<CartIconKey> cartKey = GlobalKey<CartIconKey>();
   final PageController _controller = PageController(viewportFraction: 0.8);
@@ -58,6 +58,7 @@ class _CoffeeOrderScreeState extends State<CoffeeOrderScreen>
   bool dropAnimation = false;
   late AnimationController _waveController;
   late Animation<double> _waveAnimation;
+  int _cartTotal = 0;
 
   final GlobalKey _cupKey = GlobalKey();
   late Function(GlobalKey) runAddToCartAnimation;
@@ -137,7 +138,10 @@ class _CoffeeOrderScreeState extends State<CoffeeOrderScreen>
   void _onAddToCart() async {
     // Use add_to_cart_animation package
     await runAddToCartAnimation(_cupKey);
-    cartKey.currentState?.runCartAnimation((1).toString());
+    // Increase total items in cart
+    _cartTotal += _quantity;
+    // Update the cart icon badge with new total
+    cartKey.currentState?.runCartAnimation(_cartTotal.toString());
     setState(() {
       _animationComplete = false;
       _selectedSize = 0;
@@ -214,7 +218,6 @@ class _CoffeeOrderScreeState extends State<CoffeeOrderScreen>
               AddToCartIcon(
                 key: cartKey,
                 icon: const Icon(Icons.shopping_cart),
-
                 badgeOptions: const BadgeOptions(
                   active: true,
                   fontSize: 9,
@@ -260,7 +263,6 @@ class _CoffeeOrderScreeState extends State<CoffeeOrderScreen>
                         ),
                       ),
                     ),
-
                     Positioned(
                       top: 50,
                       left: 113,
@@ -284,7 +286,6 @@ class _CoffeeOrderScreeState extends State<CoffeeOrderScreen>
                         ),
                       ),
                     ),
-
                     Positioned(
                       top: 27,
                       right: 113,
@@ -308,7 +309,6 @@ class _CoffeeOrderScreeState extends State<CoffeeOrderScreen>
                         ),
                       ),
                     ),
-
                     Positioned(
                       top: 50,
                       right: 113,
@@ -332,7 +332,6 @@ class _CoffeeOrderScreeState extends State<CoffeeOrderScreen>
                         ),
                       ),
                     ),
-
                     Positioned(
                       top: 144,
                       right: 142,
@@ -377,7 +376,6 @@ class _CoffeeOrderScreeState extends State<CoffeeOrderScreen>
                         ),
                       ),
                     ),
-
                     drop
                         ? AnimatedPositioned(
                           duration: Duration(milliseconds: 700),
